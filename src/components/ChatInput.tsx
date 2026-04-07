@@ -81,10 +81,10 @@ export function ChatInput({
   };
 
   return (
-    <div className="p-6 sm:p-10 bg-brand-bg border-t border-brand-border">
+    <div className="p-4 sm:p-10 bg-brand-bg border-t border-brand-border">
       <form 
         onSubmit={handleSubmit}
-        className="max-w-5xl mx-auto relative flex items-center gap-4"
+        className="max-w-5xl mx-auto relative flex items-center gap-2 sm:gap-4"
       >
         <div className="flex-1 relative flex flex-col gap-2">
           {selectedFile && (
@@ -103,11 +103,11 @@ export function ChatInput({
             </div>
           )}
           
-          <div className="relative flex items-center">
+          <div className="relative flex items-center w-full">
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="absolute left-5 p-2 text-brand-muted hover:text-brand-primary transition-colors"
+              className="absolute left-3 sm:left-5 p-2 text-brand-muted hover:text-brand-primary transition-colors"
             >
               <Paperclip className="w-5 h-5" />
             </button>
@@ -131,10 +131,10 @@ export function ChatInput({
                 }
               }}
               placeholder="Describe your legal issue or upload a document..."
-              className="w-full bg-brand-surface border border-brand-border text-brand-ink rounded-[2rem] py-5 pl-16 pr-28 focus:outline-none focus:ring-4 focus:ring-brand-primary/5 focus:border-brand-primary/30 transition-all resize-none text-sm sm:text-base shadow-sm"
+              className="w-full bg-brand-surface border border-brand-border text-brand-ink rounded-[2rem] py-4 sm:py-5 pl-12 sm:pl-16 pr-24 sm:pr-28 focus:outline-none focus:ring-4 focus:ring-brand-primary/5 focus:border-brand-primary/30 transition-all resize-none text-sm sm:text-base shadow-sm"
             />
 
-            <div className="absolute right-4 flex items-center gap-2">
+            <div className="absolute right-2 sm:right-4 flex items-center gap-1 sm:gap-2">
               <button
                 type="button"
                 onClick={toggleRecording}

@@ -10,7 +10,8 @@ import {
   Scale,
   Calculator,
   ShieldAlert,
-  Sword
+  Sword,
+  X
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 
@@ -28,6 +29,7 @@ interface SidebarProps {
   onOpenSettings: () => void;
   onLogout: () => void;
   user: { name: string; email: string } | null;
+  onCloseMobile?: () => void;
 }
 
 export function Sidebar({
@@ -41,7 +43,8 @@ export function Sidebar({
   onRenameSession,
   onOpenSettings,
   onLogout,
-  user
+  user,
+  onCloseMobile
 }: SidebarProps) {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editValue, setEditValue] = useState("");
@@ -55,13 +58,23 @@ export function Sidebar({
   };
 
   return (
-    <div className="w-72 h-screen bg-brand-primary text-brand-primary-fg flex flex-col border-r border-white/10">
+    <div className="w-72 h-[100dvh] bg-brand-primary text-brand-primary-fg flex flex-col border-r border-white/10 shrink-0">
       {/* Header */}
-      <div className="p-8 flex items-center gap-3">
-        <div className="bg-brand-accent p-2.5 rounded-2xl shadow-lg shadow-brand-accent/20">
-          <Scale className="w-6 h-6 text-brand-accent-fg" />
+      <div className="p-6 lg:p-8 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <div className="bg-brand-accent p-2.5 rounded-2xl shadow-lg shadow-brand-accent/20">
+            <Scale className="w-6 h-6 text-brand-accent-fg" />
+          </div>
+          <h1 className="text-xl lg:text-2xl font-serif font-semibold tracking-tight">Defender AI</h1>
         </div>
-        <h1 className="text-2xl font-serif font-semibold tracking-tight">Defender AI</h1>
+        {onCloseMobile && (
+          <button 
+            onClick={onCloseMobile}
+            className="p-2 lg:hidden rounded-xl bg-white/5 hover:bg-white/10 text-white/80 transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        )}
       </div>
 
       {/* New Chat Button */}

@@ -14,7 +14,7 @@ import { Message, ChatSession, UserSettings, WarRoomData } from '../types';
 import { generateLegalResponse, generateWarRoomAnalysis } from '../services/geminiService';
 import { performOCR } from '../services/ocrService';
 import { generateCaseBrief, generateEvidenceBundle } from '../services/exportService';
-import { Scale, Globe, MapPin, Shield, Sun, Moon, Mic, FileText, Package, Download, Sword } from 'lucide-react';
+import { Scale, Globe, MapPin, Shield, Sun, Moon, Mic, FileText, Package, Download, Sword, Menu } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { auth, db, handleFirestoreError, OperationType } from '../firebase';
 import { 
@@ -45,6 +45,7 @@ export default function Dashboard() {
   const [isWarRoomLoading, setIsWarRoomLoading] = useState(false);
   const [currentView, setCurrentView] = useState<ViewType>('chat');
   const [chatInputValue, setChatInputValue] = useState("");
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [settings, setSettings] = useState<UserSettings>(() => {
     const savedSettings = localStorage.getItem('userSettings');
     const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
@@ -319,45 +320,74 @@ export default function Dashboard() {
   }, [currentView]);
 
   return (
-    <div className={`flex h-screen bg-brand-bg ${settings.theme === 'dark' ? 'dark' : ''}`}>
-      <Sidebar
-        sessions={sessions}
-        activeSessionId={activeSessionId}
-        currentView={currentView}
-        onViewChange={(view) => {
-          setCurrentView(view);
-          if (view !== 'chat') setIsVoiceOpen(false);
-        }}
-        onNewChat={createNewChat}
-        onSelectSession={(id) => {
-          setActiveSessionId(id);
-          setCurrentView('chat');
-        }}
-        onDeleteSession={deleteSession}
-        onRenameSession={updateSessionTitle}
-        onOpenSettings={() => setIsSettingsOpen(true)}
-        onLogout={handleLogout}
-        user={user ? { name: user.displayName || "User", email: user.email || "" } : null}
-      />
+    <div className={`flex w-full h-screen bg-brand-bg relative overflow-hidden ${settings.theme === 'dark' ? 'dark' : ''}`}>
+      {/* Mobile Overlay */}
+      {isMobileSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+          onClick={() => setIsMobileSidebarOpen(false)}
+        />
+      )}
 
-      <main className="flex-1 flex flex-col relative overflow-hidden">
+      {/* Sidebar Container */}
+      <div className={cn(
+        "fixed inset-y-0 left-0 z-50 transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 lg:flex",
+        isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
+      )}>
+        <Sidebar
+          sessions={sessions}
+          activeSessionId={activeSessionId}
+          currentView={currentView}
+          onViewChange={(view) => {
+            setCurrentView(view);
+            setIsMobileSidebarOpen(false);
+            if (view !== 'chat') setIsVoiceOpen(false);
+          }}
+          onNewChat={() => {
+            createNewChat();
+            setIsMobileSidebarOpen(false);
+          }}
+          onSelectSession={(id) => {
+            setActiveSessionId(id);
+            setCurrentView('chat');
+            setIsMobileSidebarOpen(false);
+          }}
+          onDeleteSession={deleteSession}
+          onRenameSession={updateSessionTitle}
+          onOpenSettings={() => {
+            setIsSettingsOpen(true);
+            setIsMobileSidebarOpen(false);
+          }}
+          onLogout={handleLogout}
+          user={user ? { name: user.displayName || "User", email: user.email || "" } : null}
+          onCloseMobile={() => setIsMobileSidebarOpen(false)}
+        />
+      </div>
+
+      <main className="flex-1 flex flex-col relative overflow-hidden min-w-0">
         {/* Header */}
-        <header className="h-20 border-b border-brand-border flex items-center justify-between px-8 bg-brand-surface/80 backdrop-blur-md z-10">
-          <div className="flex items-center gap-4">
-            <h2 className="text-xl font-serif font-medium text-brand-ink">
+        <header className="h-16 lg:h-20 border-b border-brand-border flex items-center justify-between px-4 lg:px-8 bg-brand-surface/80 backdrop-blur-md z-10 shrink-0">
+          <div className="flex items-center gap-3 lg:gap-4 truncate">
+            <button 
+              onClick={() => setIsMobileSidebarOpen(true)}
+              className="p-2 -ml-2 rounded-xl text-brand-muted hover:text-brand-primary hover:bg-brand-bg transition-colors lg:hidden"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+            <h2 className="text-lg lg:text-xl font-serif font-medium text-brand-ink truncate">
               {currentView === 'chat' ? (sessions.find(s => s.id === activeSessionId)?.title || "Consultation") : 
                currentView === 'calculator' ? "Legal Cost Calculator" : 
                currentView === 'war-room' ? "Legal War Room" : "Emergency Help"}
             </h2>
           </div>
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 lg:gap-4 shrink-0">
             {currentView === 'chat' && (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 lg:gap-2">
                 <div className="relative">
                   <button
                     onClick={() => setIsExportMenuOpen(!isExportMenuOpen)}
-                    className="p-3 rounded-2xl border border-brand-border bg-brand-surface text-brand-muted hover:text-brand-primary transition-all shadow-sm active:scale-95 flex items-center gap-2 group"
+                    className="p-2.5 lg:p-3 rounded-2xl border border-brand-border bg-brand-surface text-brand-muted hover:text-brand-primary transition-all shadow-sm active:scale-95 flex items-center gap-2 group"
                   >
                     <Download className="w-5 h-5" />
                     <span className="text-[10px] uppercase tracking-widest font-bold hidden sm:block">Export</span>
@@ -403,14 +433,14 @@ export default function Dashboard() {
                 <button
                   onClick={() => setIsVoiceOpen(!isVoiceOpen)}
                   className={cn(
-                    "p-3 rounded-2xl border transition-all shadow-sm active:scale-95 flex items-center gap-2 group",
+                    "p-2.5 lg:p-3 rounded-2xl border transition-all shadow-sm active:scale-95 flex items-center gap-2 group",
                     isVoiceOpen 
                       ? "bg-brand-primary text-white border-brand-primary" 
                       : "bg-brand-bg border-brand-border text-brand-muted hover:text-brand-primary"
                   )}
                 >
                   <Mic className={cn("w-5 h-5", isVoiceOpen && "animate-pulse")} />
-                  <span className="text-[10px] uppercase tracking-widest font-bold hidden sm:block">Talk to Defender</span>
+                  <span className="text-[10px] uppercase tracking-widest font-bold hidden lg:block">Talk</span>
                 </button>
               </div>
             )}
@@ -418,23 +448,23 @@ export default function Dashboard() {
             {/* Theme Toggle in Header */}
             <button
               onClick={() => updateUserSettings({ ...settings, theme: settings.theme === 'dark' ? 'light' : 'dark' })}
-              className="p-3 rounded-2xl bg-brand-bg border border-brand-border text-brand-muted hover:text-brand-primary transition-all shadow-sm active:scale-95 flex items-center gap-2 group"
+              className="p-2.5 lg:p-3 rounded-2xl bg-brand-bg border border-brand-border text-brand-muted hover:text-brand-primary transition-all shadow-sm active:scale-95 flex items-center gap-2 group"
               title={settings.theme === 'dark' ? "Switch to Light Mode" : "Switch to Dark Mode"}
             >
               {settings.theme === 'dark' ? (
                 <>
                   <Sun className="w-5 h-5 group-hover:rotate-45 transition-transform" />
-                  <span className="text-[10px] uppercase tracking-widest font-bold hidden sm:block">Light Mode</span>
+                  <span className="text-[10px] uppercase tracking-widest font-bold hidden lg:block">Light</span>
                 </>
               ) : (
                 <>
                   <Moon className="w-5 h-5 group-hover:-rotate-12 transition-transform" />
-                  <span className="text-[10px] uppercase tracking-widest font-bold hidden sm:block">Dark Mode</span>
+                  <span className="text-[10px] uppercase tracking-widest font-bold hidden lg:block">Dark</span>
                 </>
               )}
             </button>
 
-            <div className="flex items-center gap-2.5 px-4 py-2 bg-brand-bg border border-brand-border rounded-full text-brand-muted text-[10px] uppercase tracking-[0.15em] font-bold">
+            <div className="hidden sm:flex items-center gap-2.5 px-4 py-2 bg-brand-bg border border-brand-border rounded-full text-brand-muted text-[10px] uppercase tracking-[0.15em] font-bold">
               <div className="w-2 h-2 bg-brand-primary rounded-full animate-pulse" />
               Defender AI Online
             </div>

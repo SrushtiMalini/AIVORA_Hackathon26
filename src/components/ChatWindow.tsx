@@ -43,7 +43,7 @@ export function ChatWindow({ messages, isTyping, onSuggestionClick }: ChatWindow
   }
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 sm:p-10 space-y-10 custom-scrollbar">
+    <div className="flex-1 overflow-y-auto p-4 sm:p-10 space-y-6 sm:space-y-10 custom-scrollbar">
       {messages.map((message) => (
         <div
           key={message.id}
@@ -59,7 +59,7 @@ export function ChatWindow({ messages, isTyping, onSuggestionClick }: ChatWindow
           )}
           
           <div className={cn(
-            "max-w-[85%] sm:max-w-[75%] p-6 shadow-sm",
+            "max-w-[92%] sm:max-w-[75%] p-4 sm:p-6 shadow-sm",
             message.role === 'user' 
               ? "bg-brand-primary text-brand-primary-fg rounded-[2rem] rounded-tr-none" 
               : "bg-brand-surface border border-brand-border text-brand-ink rounded-[2rem] rounded-tl-none"

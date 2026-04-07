@@ -31,8 +31,8 @@ export function LegalCalculator() {
         <div className="w-20 h-20 bg-brand-primary/5 rounded-[2rem] flex items-center justify-center mb-6 mx-auto animate-in fade-in slide-in-from-bottom-4">
           <Calculator className="w-10 h-10 text-brand-primary" />
         </div>
-        <h2 className="text-4xl font-serif font-medium text-brand-ink mb-4 animate-in fade-in slide-in-from-bottom-4 [animation-delay:100ms]">Legal Cost Calculator</h2>
-        <p className="text-brand-muted max-w-lg mx-auto animate-in fade-in slide-in-from-bottom-4 [animation-delay:200ms]">
+        <h2 className="text-3xl sm:text-4xl font-serif font-medium text-brand-ink mb-4 animate-in fade-in slide-in-from-bottom-4 [animation-delay:100ms]">Legal Cost Calculator</h2>
+        <p className="text-sm sm:text-base text-brand-muted max-w-lg mx-auto animate-in fade-in slide-in-from-bottom-4 [animation-delay:200ms]">
           Estimate your potential legal expenses, court fees, and stamp duties across different Indian states and case types.
         </p>
       </div>
@@ -95,7 +95,7 @@ export function LegalCalculator() {
             
             <div className="space-y-1 relative z-10">
               <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/60">Estimated Total Cost</p>
-              <h3 className="text-5xl font-serif font-medium">₹{calculations.total.toLocaleString()}</h3>
+              <h3 className="text-4xl sm:text-5xl font-serif font-medium">₹{calculations.total.toLocaleString()}</h3>
             </div>
 
             <div className="space-y-4 relative z-10">
