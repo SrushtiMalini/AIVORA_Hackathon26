@@ -2,8 +2,14 @@ import { GoogleGenAI, Type } from "@google/genai";
 import Groq from "groq-sdk";
 import { LegalAnalysis, Message, WarRoomData, LegalStrategy } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY!, dangerouslyAllowBrowser: true });
+const geminiKey = import.meta.env.VITE_GEMINI_API_KEY;
+const groqKey = import.meta.env.VITE_GROQ_API_KEY;
+
+const ai = new GoogleGenAI({ apiKey: geminiKey });
+const groq = new Groq({
+  apiKey: groqKey,
+  dangerouslyAllowBrowser: true,
+});
 
 export interface LegalResponse {
   text: string;
