@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", serif;
+  
+  /* Coastal Retreat Palette - Semantic */
+  --color-brand-primary: #335765; /* Deep Coastal Blue */
+  --color-brand-primary-fg: #FFFFFF; /* White text on primary */
+  --color-brand-accent: #7F543D; /* Earthy Brown */
+  --color-brand-accent-fg: #FFFFFF; /* White text on accent */
+  --color-brand-bg: #DBE2DC; /* Soft Mist */
+  --color-brand-surface: #FFFFFF; /* Pure White surface */
+  --color-brand-ink: #1A1A1A; /* Near Black text */
+  --color-brand-muted: #5A7D7A; /* Darker Seafoam for readability */
+  --color-brand-border: #B6D9E0; /* Light Sky */
+}
+
+.dark {
+  --color-brand-primary: #B6D9E0; /* Light Sky as primary in dark mode */
+  --color-brand-primary-fg: #1A2A30; /* Dark text on primary */
+  --color-brand-accent: #74A8A4; /* Seafoam as accent */
+  --color-brand-accent-fg: #1A2A30; /* Dark text on accent */
+  --color-brand-bg: #0F171A; /* Very Dark Blue-Grey */
+  --color-brand-surface: #1A2A30; /* Deep Coastal Blue surface */
+  --color-brand-ink: #DBE2DC; /* Soft Mist text */
+  --color-brand-muted: #74A8A4; /* Seafoam muted */
+  --color-brand-border: #243B45; /* Muted Blue-Grey border */
+}
+
+@layer base {
+  body {
+    @apply font-sans text-brand-ink bg-brand-bg antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-medium tracking-tight;
+  }
+}
+
+@layer components {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-brand-border rounded-full;
+  }
+  .custom-scrollbar:hover::-webkit-scrollbar-thumb {
+    @apply bg-brand-muted/30;
+  }
+  
+  .glass-panel {
+    @apply bg-brand-surface/70 backdrop-blur-md border border-brand-border shadow-sm;
+  }
+  
+  .premium-card {
+    @apply bg-brand-surface border border-brand-border rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)];
+  }
+
+  .btn-primary {
+    @apply bg-brand-primary text-white px-6 py-3 rounded-full font-medium transition-all duration-300 hover:bg-brand-primary/90 hover:shadow-lg hover:shadow-brand-primary/20 active:scale-95;
+  }
+  
+  .btn-secondary {
+    @apply bg-transparent border border-brand-border text-brand-ink px-6 py-3 rounded-full font-medium transition-all duration-300 hover:bg-brand-bg hover:border-brand-primary/30 active:scale-95;
+  }
+}
+
+.animate-in {
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+.fade-in {
+  animation-name: fadeIn;
+}
+
+.slide-in-from-bottom-4 {
+  animation-name: slideInFromBottom;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInFromBottom {
+  from { transform: translateY(1.5rem); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Markdown styling for legal content */
+.prose-legal {
+  @apply leading-relaxed;
+}
+.prose-legal h1, .prose-legal h2, .prose-legal h3 {
+  @apply mt-6 mb-4;
+}
+.prose-legal:not(.user-prose) h1, 
+.prose-legal:not(.user-prose) h2, 
+.prose-legal:not(.user-prose) h3 {
+  @apply text-brand-primary;
+}
+.prose-legal p {
+  @apply mb-4;
+}
+.prose-legal ul, .prose-legal ol {
+  @apply ml-6 mb-4 list-disc;
+}
+.prose-legal blockquote {
+  @apply border-l-2 border-brand-accent pl-4 italic;
+}
+.prose-legal:not(.user-prose) blockquote {
+  @apply text-brand-muted;
+}
+

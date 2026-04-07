@@ -1,0 +1,59 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User account information and preferences",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "name": { "type": "string", "description": "Display name" },
+        "email": { "type": "string", "description": "Email address" },
+        "language": { "type": "string", "description": "Preferred language" },
+        "location": { "type": "string", "description": "User location" },
+        "theme": { "type": "string", "description": "UI theme (light/dark)" },
+        "createdAt": { "type": "number", "description": "Timestamp of creation" }
+      },
+      "required": ["uid", "email"]
+    },
+    "ChatSession": {
+      "title": "Chat Session",
+      "description": "A single legal consultation thread",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique session ID" },
+        "userId": { "type": "string", "description": "Owner UID" },
+        "title": { "type": "string", "description": "Session title" },
+        "createdAt": { "type": "number", "description": "Timestamp of creation" },
+        "updatedAt": { "type": "number", "description": "Timestamp of last update" }
+      },
+      "required": ["id", "userId", "title"]
+    },
+    "Message": {
+      "title": "Chat Message",
+      "description": "A single message in a chat session",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique message ID" },
+        "sessionId": { "type": "string", "description": "Parent session ID" },
+        "role": { "type": "string", "enum": ["user", "assistant"], "description": "Sender role" },
+        "content": { "type": "string", "description": "Message text" },
+        "timestamp": { "type": "number", "description": "Timestamp of message" }
+      },
+      "required": ["id", "sessionId", "role", "content"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": {
+      "schema": "User",
+      "description": "User profile documents"
+    },
+    "/users/{uid}/sessions/{sessionId}": {
+      "schema": "ChatSession",
+      "description": "User's chat sessions"
+    },
+    "/users/{uid}/sessions/{sessionId}/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Messages within a session"
+    }
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "name": "Defender AI",
+  "description": "A premium legal aid platform helping people understand legal issues, analyze documents, and explore legal strategies with an AI Public Defender persona.",
+  "requestFramePermissions": ["microphone"]
+}
