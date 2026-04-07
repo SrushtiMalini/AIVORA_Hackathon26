@@ -1,20 +1,46 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+AI Public Defender – Legal Guidance System
 
-# Run and deploy your AI Studio app
+1. Overview
 
-This contains everything you need to run your app locally.
+AI Public Defender is a legal guidance platform designed to help users understand their rights and analyze legal situations. The system provides structured insights and general guidance, improving accessibility to legal awareness.
 
-View your app in AI Studio: https://ai.studio/apps/60c7dfb4-8909-4b7d-a83d-78cabd13a247
+Note: This system provides general guidance only and does not replace professional legal advice.
 
-## Run Locally
+2. Problem Statement
 
-**Prerequisites:**  Node.js
+Many individuals lack access to affordable legal assistance and are unaware of their rights. This creates a gap in understanding legal procedures and decision-making.
 
+3. Solution
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+The platform acts as a legal guidance system that:
+* Interprets user queries related to legal issues
+* Provides structured and simplified outputs
+* Suggests possible next steps and precautions
+  
+4. Key Features:
+* AI-based legal query analysis with structured JSON output
+* Voice input support and multilingual interaction
+* Document upload with OCR-based text extraction and analysis
+* Case probability estimation with graphical visualization
+* “War Room” feature for simulated courtroom discussions
+* Secure authentication and user-specific chat history
+* User preferences for language and region
+  
+5. Tech Stack:
+* Frontend
+   * React.js
+   * Tailwind CSS
+* Backend
+   * Supabase (Database and Authentication)
+* AI and Processing
+   * Gemini API
+   * Groq API
+   * OCR for document analysis
+* Visualization
+   * D3.js
+
+6. Future Scope
+* Improved accuracy in case analysis
+* Expansion to more regional laws and languages
+* Integration with legal aid services
+* Mobile application support
